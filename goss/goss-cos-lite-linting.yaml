@@ -1,0 +1,45 @@
+command:
+  validate-cos-lite-configuration:
+    exec: juju status -m cos-model --format=json
+    exit-status: 0
+    stdout:
+      gjson:
+        # Deployed applications
+        applications.@keys:
+          equal:
+            [
+              alertmanager,
+              catalogue,
+              grafana,
+              loki,
+              prometheus,
+              traefik,
+            ]
+        # Prometheus relations
+        applications.prometheus.relations.@keys:
+          equal:
+            [
+              alertmanager,
+              catalogue,
+              grafana-dashboard,
+              grafana-source,
+              ingress,
+              metrics-endpoint,
+              prometheus-peers,
+            ]
+        # Alertmanager relations
+        applications.alertmanager.relations.@keys:
+          equal:
+            [
+              alerting,
+              catalogue,
+              grafana-dashboard,
+              grafana-source,
+              ingress,
+              replicas,
+              self-metrics-endpoint,
+            ]
+        # Applications related to Alertmanager over the alerting relation
+        applications.alertmanager.relations.alerting.#.related-application:
+          equal: [loki, prometheus]
+    stderr: ""

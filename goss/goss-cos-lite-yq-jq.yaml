@@ -1,0 +1,16 @@
+command:
+  loki-reachable-via-ingress-url:
+    exec: curl -s $(juju ssh -m cos-model --container loki loki/0 cat /etc/loki/loki-local-config.yaml | yq -r '.ruler.external_url')/ready | tr -d '\n'
+    exit-status: 0
+    stdout: "ready"
+    stderr: ""
+
+  all-k8-pods-status-ready:
+    exec: kubectl get pods -n cos-model --output=json | jq -c '[.items[].status.containerStatuses[].ready]'
+    exit-status: 0
+    stdout:
+      gjson:
+        '@this':
+          not:
+            - {have-key: false}
+    stderr: ""

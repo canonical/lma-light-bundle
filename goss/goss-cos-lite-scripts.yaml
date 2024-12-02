@@ -1,0 +1,14 @@
+command:
+  # Python scripts
+  k8s-probes-healthy-charm-containers:
+    exec: python3 {{ .Vars.goss_dir }}/scripts/test-k8s-probes.py
+    exit-status: 0
+    stdout: ""
+    stderr: ""
+  
+  # Bash scripts
+  loki-can-reach-altermanager-internally:
+    exec: bash {{ .Vars.goss_dir }}/scripts/test-internal-routing.sh cos-model loki
+    exit-status: 0
+    stdout: "Status code: 200"
+    stderr: ""
