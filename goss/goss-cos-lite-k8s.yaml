@@ -1,0 +1,20 @@
+command:
+  all-pods-status-healthy:
+    exec: kubectl get pods -n {{ .Vars.model_name }} --output=json
+    exit-status: 0
+    stdout:
+      gjson:
+        items.#.status.conditions.#.status|@flatten:
+          not:
+            - "False"
+    stderr: ""
+
+  all-pods-all-containers-healthy:
+    exec: kubectl get pods -n {{ .Vars.model_name }} --output=json 
+    exit-status: 0
+    stdout:
+      gjson:
+        items.#.status.containerStatuses.#.ready:
+          not:
+            - "false"
+    stderr: ""

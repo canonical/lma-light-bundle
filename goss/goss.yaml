@@ -1,0 +1,3 @@
+# Import other goss.yaml files
+gossfile:
+  goss-*.yaml: {}

@@ -1,0 +1,7 @@
+command:
+  loki-reachable-via-ingress-url:
+    exec: curl -s $(juju ssh -m {{ .Vars.model_name }} --container loki {{ .Vars.apps.k8s.loki.name }}/0 cat /etc/loki/loki-local-config.yaml | yq -r '.ruler.external_url')/ready
+    exit-status: 0
+    stdout:
+      - "ready"
+    stderr: ""

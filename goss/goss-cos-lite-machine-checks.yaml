@@ -1,0 +1,15 @@
+# Availability Zone checks
+command:
+  {{ if .Vars.enable_machine_tests }}
+  app-distributed-evenly-across-AZs:
+    exec: juju status -m {{ .Vars.model_name }} --format=json
+    exit-status: 0
+    stdout:
+      gjson:
+        applications.{{ .Vars.apps.machine.prometheus_openstack_exporter.name }}.units.@values.#.machine:
+          consist-of:
+            - "0"
+            - "1"
+            - "2"
+  {{ end }}
+

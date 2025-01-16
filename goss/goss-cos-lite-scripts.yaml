@@ -1,0 +1,20 @@
+command:
+  relations-over-grafana-dashboard-interface:
+    exec: bash {{ .Vars.goss_dir }}/scripts/test-relation-if-interface.sh cos-model grafana grafana-dashboard grafana_dashboard
+    exit-status: 0
+    stdout:
+      - "INFO"
+      - "!ERROR"
+    stderr: ""
+
+  k8s-probes-healthy-charm-containers:
+    exec: bash {{ .Vars.goss_dir }}/scripts/test-k8s-probes.sh
+    exit-status: 0
+    stdout: ""
+    stderr: ""
+
+  grafana-related-dashboards:
+    exec: bash {{ .Vars.goss_dir }}/scripts/compare-dashboard-uids.sh cos-model grafana alertmanager 
+    exit-status: 0
+    stdout: "Match found."
+    stderr: ""

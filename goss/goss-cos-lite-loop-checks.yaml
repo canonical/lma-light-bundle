@@ -1,0 +1,13 @@
+command:
+  # $root is required to access the root context of the current template,
+  # which refers to the entire data structure being passed into the template.
+  # This provides access to .Vars and .Env in loops like the one below.
+  {{- $root := . -}}
+  {{range $app := .Vars.apps.k8s}}
+  pebble-{{$app.name}}:
+    exec: juju ssh -m {{ $root.Vars.model_name }} {{$app.name}}/0 /charm/bin/pebble health
+    exit-status: 0
+    stdout:
+      - "healthy"
+    stderr: ""
+  {{end}}

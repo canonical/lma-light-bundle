@@ -1,0 +1,23 @@
+enable_machine_tests: false
+
+model_name: cos-model
+
+apps:
+  k8s:
+    alertmanager:
+      name: alertmanager
+    catalogue:
+      name: catalogue
+    grafana:
+      name: grafana
+    loki:
+      name: loki
+    prometheus:
+      name: prometheus
+    traefik:
+      name: traefik
+  machine:
+    # Keys cannot have '-' in the name, replace with _.
+    prometheus_openstack_exporter:
+      name: prometheus-openstack-exporter
+
