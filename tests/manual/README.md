@@ -30,11 +30,11 @@ end
 Launch the VM with:
 ```bash
 multipass launch 22.04 --cloud-init microk8s-ha.yaml \
-  --timeout 1800 \
-  --name three-node \
-  --memory 16G \
-  --cpus 14 \
-  --disk 100G
+ --timeout 2000 \
+ --name three-node \
+ --memory 32G \
+ --cpus 16 \
+ --disk 160G
 ```
 
 Then shell into the vm, get the `three-nodes-overlay.yaml` file and run:
